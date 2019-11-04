@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}} -BLOG</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body><hr>
+    <a class="btn btn-dark" href="{{ url_for('index_page') }}">Come back</a><br>
+
+    <div class="mx-auto" style="width: 800px;">
+        <h1>{{title}}</h1>
+    <h5>{{text}}</h5><br>
+    <h3>Comments:<br></h3>
+    {% if comments|length ==0 %}
+    You can leave the first comment
+    {% else %}
+    {% for i in comments %}
+        <p></p>
+    <h5>{{i.name}}<br></h5>
+    <h6> {{i.text}} <br></h6>
+    <p></p>
+    {% endfor %}
+    {% endif %}
+    <p></p>
+    <form action="." method="POST">
+    <h6>Add comment<h6>
+    <h6>Name:<input type="text" name="name"><br><h6>
+   <h6> Comment<input  type="text" min="1" name="text" ><br><h6>
+       {% if error %}
+    <span style="color: darkred ">{{error}}</span>
+    {% endif %}
+       <a  class="btn btn-danger " style=" width: 300px;">Save</a>
+
+
+    <form>
+</body>
+</html>
