@@ -7,7 +7,7 @@ def create_entry_page():
     error = None
 
     if request.method == 'POST':
-        key = str(random.randint(1000, 10000))
+        key =  str(len(BLOG_ENTRIES) + 1)
         title = request.form.get('title')
         text = request.form.get('text')
         created_at = datetime.datetime.now().str("%d/%m/%Y")
@@ -21,7 +21,7 @@ def create_entry_page():
                 ]
             })
             return redirect(url_for('entry_page', key=key))
-            return render_template('entry.html', title=title, text=text)
+    
         else:
             error = 'full fields'
     return render_template('create_entry.html', error=error)
