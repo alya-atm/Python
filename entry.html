@@ -23,15 +23,14 @@
     {% endfor %}
     {% endif %}
     <p></p>
-    <form action="." method="POST">
+    <form action="" method="POST">
     <h6>Add comment<h6>
     <h6>Name:<input type="text" name="name"><br><h6>
    <h6> Comment<input  type="text" min="1" name="text" ><br><h6>
        {% if error %}
     <span style="color: darkred ">{{error}}</span>
     {% endif %}
-       <a  class="btn btn-danger " style=" width: 300px;">Save</a>
-
+       <br><input type="submit" class="btn btn-danger " style="width: 450px;"  value="Save"></br>
 
     <form>
 </body>
