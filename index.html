@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <div class="mx-auto" style="width: 400px;">
+    <title>BLOG </title>
+</head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="mx-auto" style="width: 400px;">
+        <h1 style="font-size: 42px; text-align:center ">BLOG </h1>
+
+        <div class="container">
+        <form action="" method="GET">
+        <h6>    Search by article title</h6>
+        <input type="text" name="name" class="btn btn-outline-dark"  style="width:350px;" ><br>
+        <p></p>
+        <h6> Sorting</h6>
+         <select  class="selectpicker" name="operation" style="width: 200px; height: 40px;border-radius: 6px;background: white; color:#EB4242" >
+        <option selected value="date_new">By date (new)</option>
+        <option value="name">By name</option>
+        <option value="date_old">By date (old)</option>
+         </select>
+         <input type="submit" class="btn btn-outline-dark" style="width: 150px;"  value="Apply">
+        </form>
+         <p></p>
+         {% for i in articles %}
+        <a class="text-secondary" href="{{ url_for('entry_page', key=i.key) }}"><h1>{{i.title}}</h1></a>
+        <h5>Publication date: {{i.created_at}}</h5>
+        {% if i.comments|length ==0 %}
+        <h5> No comments yet<h5><br>
+         <p> </p>
+        {% else %}
+        <h5>Number of comments: {{i.comments|length}}</h5></br>
+        {% endif %}
+        {% endfor %}
+        <a  class="btn btn-danger " style=" width: 300px;" href="{{ url_for('create_entry_page') }}">Create article</a>
+
+</div>
+</body>
+</html>

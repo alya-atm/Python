@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create article - BLOG</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <a class="btn btn-dark" href="{{ url_for('index_page') }}">Come back</a><br>
+    <div class="mx-auto" style="width: 1000px;">
+    <hr><h2>Tell something</h2>
+     <p></p>
+    <form action="." method="POST">
+
+    <h4> Article title<input class="form-control"  type="text" style="width: 450px;" name="title" > <h4><br>
+    <textarea name="text"  rows="15" cols="90  " wrap="virtual" class="border border-dark p-3 mb-2 bg-light text-dark"></textarea>
+    {% if error %}
+    <span style="color: darkred ">{{error}}</span>
+    {% endif %}
+    <br><input type="submit" class="btn btn-danger " style="width: 450px;"  value="Share"><br>
+</form>
+<hr>
+
+
+</body>
+</html>
