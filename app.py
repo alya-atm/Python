@@ -18,22 +18,31 @@ def show():
     global ex, pl2
     error = None
     error_sku = None
-    save=None
+    save = None
+    error_type = None
     store = df['store'].unique()
     sku = df['sku'].unique()
     tk = request.args.get('store')
     item = request.args.get('sku')
+    data_models = pd.read_csv('models.csv')
     if tk is None and item is None:
         tk = 370
         item = 3041866
+        sku = df[df['store'] == tk]
+        sku = sku['sku'].unique()
         ex = df[(df['store'] == tk) & (df['sku'] == item)].reset_index(drop=True)
-    elif len(item) == 0:
-        error_sku = 'Выберите товар'
-    elif int(tk) in store and int(item) in sku:
-        if len(df[(df['store'] == int(tk)) & (df['sku'] == int(item))].reset_index(drop=True)) == 0:
-            error = 'Товар не продается в магазине'
-        else:
+    elif len(tk) > 0:
+        sku = df[df['store'] == int(tk)]
+        sku = sku['sku'].unique()
+        if len(item) == 0:
+            error_sku = 'Выберите товар'
+        elif not item.isdigit():
+            error_type = "Введите корректные данные"
+        elif int(tk) in store and int(item) in sku:
             ex = df[(df['store'] == int(tk)) & (df['sku'] == int(item))].reset_index(drop=True)
+        elif int(item) not in sku:
+            error_sku = "Товар не продается в магазине"
+
     clear = outliers(ex)
     plots1 = []
     plots1.append(make_plot(clear))
@@ -41,6 +50,7 @@ def show():
     if model is None:
         model = 'Xgboost'
         pl2 = model_xgb(clear)
+
     if model == 'Xgboost':
         pl2 = model_xgb(clear)
     elif model == 'Lightgbm':
@@ -60,19 +70,16 @@ def show():
     mae = round(mean_absolute_error(y_test, model_test), 2)
 
     if request.method == 'POST':
-        data_models = pd.read_csv('models.csv')
-        if len(data_models[(data_models['store'] == int(tk)) & (data_models['sku'] == int(item))]) != 0:
-            save = data_models[(data_models['store'] == int(tk)) & (data_models['sku'] == int(item))]['model']
-            save = save.values[0]
-        else:
-            values = [tk, item, model]
-            with open('models.csv', 'a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(values)
+        save = model
+        values = [tk, item, model]
+        with open('models.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(values)
 
     return render_template('base.html', plots1=plots1, plots2=plots2, plots3=plots3, wape=wape, mape=mape, rmse=rmse,
                            bias=bias, mae=mae, model=model, store=store, tk=tk, sku=sku, item=item, error=error,
-                           error_sku=error_sku,save=save)
+                           error_sku=error_sku, save=save, error_type=error_type)
+
 
 if __name__ == '__main__':
     app.run()
