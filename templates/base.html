@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -30,10 +31,10 @@
             height: 40px;
             padding-left:100px;}
         hr {
-            border: none; /* Убираем границу */
-            background-color: black; /* Цвет линии */
-            color: black; /* Цвет линии для IE6-7 */
-            height: 2px; /* Толщина линии */
+            border: none;
+            background-color: black;
+            color: black;
+            height: 2px;
         }
     </style>
 </head>
@@ -70,9 +71,9 @@
             <h4>Выбор товара</h4>
             <hr>
             <label>
-                <input type="text" name="sku" list="items"  placeholder="{{ item }}" >
+                <input type="text" name="sku" list="items"  value="{{ item }}" >
                 <datalist id="items"  style="width: 190px; height: 38px;border-radius: 6px;background: white; color:black;">
-                    <option  selected value="{{ item }}">{{ item }}</option>
+
                     {% for i in sku %}
                         <option  value = "{{i}}" > {{i}} </option >
                     {% endfor %}
@@ -85,6 +86,8 @@
                 <h5 style="color: darkred ">{{error}}</h5>
             {% elif error_sku %}
                 <h5 style="color: darkred ">{{error_sku}}</h5>
+            {% elif error_type %}
+                <h5 style="color: darkred ">{{error_type}}</h5>
             {% else %}
                 <h5 style="color:gray"> Магазин: {{ tk }} <br>
                     Товар: {{ item }}</h5>
@@ -99,8 +102,7 @@
             <hr>
             <label>
                 <select  name="model" style="width: 190px; height: 38px;border-radius: 6px;background: white; color:black;">
-                    <option  selected value="{{ model }}">{{ model }}</option>
-                    <option  value="Xgboost">Xgboost</option>
+                    <option value="Xgboost">Xgboost</option>
                     <option value="Lightgbm">Lightgbm</option>
                     <option value="Random forest">Random Forest</option>
                 </select>
