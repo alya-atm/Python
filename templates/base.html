@@ -1,0 +1,160 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Page - Forecast DRAFT</title>
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.13.min.css" type="text/css" />
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-1.1.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style  type="text/css">
+        #container {
+            background:white;
+        }
+        #content1 {
+            background: white;
+            float: right;
+            width: 60%;
+            height: 420px;
+            padding-left:70px;}
+        #sidebar1 {
+            background:white;
+            float: left;
+            width: 40%;
+            padding-left:50px;
+            height: 420px;
+        #footer {
+            color: gray;
+            clear:both;
+            width: 100%;
+            height: 40px;
+            padding-left:100px;}
+        hr {
+            border: none;
+            background-color: black;
+            color: black;
+            height: 2px;
+        }
+    </style>
+</head>
+<nav class="navbar navbar-dark bg-dark">
+    <h1 style="color:white;font-family: 'Arial ',sans-serif">
+        Forecast Draft
+    </h1>
+</nav>
+<p></p>
+<form action="" method="GET">
+    <div id="container">
+
+        <div id="content1">
+            <h4 > Очистка от выбросов</h4>
+            {% for plot in plots1 %}
+                {% for part in plot %}
+                    {{part | safe}}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div id="sidebar1">
+            <h4>Выбор магазина</h4>
+            <hr>
+            <label>
+                <select  name="store" style="width: 190px; height: 38px;border-radius: 6px;background: white; color:black;">
+                    <option  selected value="{{ tk }}">{{ tk }}</option>
+                    {% for s in store %}
+                        <option  value = "{{s}}" > {{s}} </option >
+                    {% endfor %}
+                </select >
+                <input type="submit" class="btn btn-outline-dark" style="width: 150px;"  value="Выбрать">
+            </label>
+            <hr>
+            <h4>Выбор товара</h4>
+            <hr>
+            <label>
+                <input type="text" name="sku" list="items"  value="{{ item }}" >
+                <datalist id="items"  style="width: 190px; height: 38px;border-radius: 6px;background: white; color:black;">
+
+                    {% for i in sku %}
+                        <option  value = "{{i}}" > {{i}} </option >
+                    {% endfor %}
+
+                </datalist>
+                <input type="submit" class="btn btn-outline-dark" style="width: 150px;"  value="Выбрать">
+            </label>
+            <hr>
+            {% if error %}
+                <h5 style="color: darkred ">{{error}}</h5>
+            {% elif error_sku %}
+                <h5 style="color: darkred ">{{error_sku}}</h5>
+            {% elif error_type %}
+                <h5 style="color: darkred ">{{error_type}}</h5>
+            {% else %}
+                <h5 style="color:gray"> Магазин: {{ tk }} <br>
+                    Товар: {{ item }}</h5>
+            {% endif %}
+            <p></p>
+            {% if save %}
+                <h5 style="color: darkred "> Сохранена модель {{save}}</h5>
+            {% endif %}
+        </div>
+        <div id="sidebar1">
+            <h4> Выбор модели</h4>
+            <hr>
+            <label>
+                <select  name="model" style="width: 190px; height: 38px;border-radius: 6px;background: white; color:black;">
+                    <option value="Xgboost">Xgboost</option>
+                    <option value="Lightgbm">Lightgbm</option>
+                    <option value="Random forest">Random Forest</option>
+                </select>
+            </label>
+            <input type="submit" class="btn btn-outline-dark" style="width: 150px;"  value="Применить">
+            <hr>
+            <p></p>
+            <h4>Показатели ошибки модели {{ model }} :</h4>
+            <p></p>
+            <h5> WAPE: {{ wape }}%</h5>
+            <h5> MAPE: {{ mape }}%</h5>
+            <h5 > BIAS: {{ bias }}%</h5>
+            <h5> MAE: {{ mae }}</h5>
+            <h5 > RMSE: {{ rmse }}</h5>
+
+</form>
+<hr>
+<p></p>
+
+<form action="" method="POST">
+    <input type="submit" class="btn btn-outline-dark" style="width: 200px;"  value="Сохранить модель">
+
+</form>
+
+</div>
+<div id="content1">
+    <h4 > Обучение</h4>
+
+    <div>
+        {% for plot in plots2 %}
+            {% for part in plot %}
+                {{part | safe}}
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+</div>
+<div id="content1">
+    {% for plot in plots3 %}
+        {% for part in plot %}
+            {{part | safe}}
+        {% endfor %}
+    {% endfor %}
+
+</div>
+<div id="sidebar1">
+
+</div>
+<div id="footer">
+    © FCSTDRAFT, 2019
+</div>
+</div>
+
+
+</html>
